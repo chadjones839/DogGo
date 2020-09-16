@@ -31,7 +31,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT d.Id AS DogId, d.[Name] AS DogName, OwnerId, Breed, o.id AS OwnerId, o.[Name] AS OwnerName
+                        SELECT d.Id AS DogId, d.[Name] AS DogName, OwnerId, Notes, ImageUrl, Breed, o.id AS OwnerId, o.[Name] AS OwnerName
                         FROM Dog d
                         LEFT JOIN Owner o ON d.OwnerId = o.Id
                     ";
@@ -47,6 +47,8 @@ namespace DogGo.Repositories
                             Name = reader.GetString(reader.GetOrdinal("DogName")),
                             Breed = reader.GetString(reader.GetOrdinal("Breed")),
                             OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                            Notes = reader.GetString(reader.GetOrdinal("Notes")),
+                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
                             Owner = new Owner()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
@@ -72,7 +74,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Name], OwnerId, Breed
+                        SELECT Id, [Name], OwnerId, Breed, Notes, ImageUrl
                         FROM Dog
                         WHERE Id = @id
                     ";
@@ -88,7 +90,9 @@ namespace DogGo.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
-                            Breed = reader.GetString(reader.GetOrdinal("Breed"))
+                            Breed = reader.GetString(reader.GetOrdinal("Breed")),
+                            Notes = reader.GetString(reader.GetOrdinal("Notes")),
+                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
                         };
 
                         reader.Close();
