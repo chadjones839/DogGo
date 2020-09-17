@@ -9,23 +9,27 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DogGo</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img class="nav-img" src="https://res.cloudinary.com/dhduglm4j/image/upload/v1600374790/icons/fetch_tndlxt.png" alt="Doggo" /></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                    </button>
+                </div>
+                <div class="navbar-links-container">
+                    <ul class="navbar-links">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="walkers" asp-action="index">Walkers</a>
+                            <a class="nav-link" asp-area="" asp-controller="index" asp-action="index">HOME</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="owners" asp-action="index">Owners</a>
+                            <a class="nav-link" asp-area="" asp-controller="owners" asp-action="index">OWNERS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="dogs" asp-action="index">Dogs</a>
+                            <a class="nav-link" asp-area="" asp-controller="walkers" asp-action="index">WALKERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="neighborhoods" asp-action="index">NEIGHBORHOODS</a>
                         </li>
                     </ul>
                 </div>
