@@ -102,7 +102,7 @@ namespace DogGo.Repositories
                         }
                         if (reader.IsDBNull(reader.GetOrdinal("ImageUrl")) == false)
                         {
-                            dog.ImageUrl = reader.GetString(reader.GetOrdinal("Notes"));
+                            dog.ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
                         }
 
                         dogs.Add(dog);
@@ -121,9 +121,10 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Name], OwnerId, Breed, Notes, ImageUrl
-                        FROM Dog
-                        WHERE Id = @id
+                        SELECT d.Id AS DogId, d.[Name] AS DogName, OwnerId, Notes, ImageUrl, Breed, o.id AS OwnerId, o.[Name] AS OwnerName
+                        FROM Dog d
+                        LEFT JOIN Owner o ON d.OwnerId = o.Id
+                        WHERE d.Id = @id
                     ";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -134,12 +135,17 @@ namespace DogGo.Repositories
                     {
                         Dog dog = new Dog
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Id = reader.GetInt32(reader.GetOrdinal("DogId")),
+                            Name = reader.GetString(reader.GetOrdinal("DogName")),
                             OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
                             Breed = reader.GetString(reader.GetOrdinal("Breed")),
                             Notes = reader.GetString(reader.GetOrdinal("Notes")),
-                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
+                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
+                            Owner = new Owner()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                                Name = reader.GetString(reader.GetOrdinal("OwnerName"))
+                            }
                         };
 
                         reader.Close();
