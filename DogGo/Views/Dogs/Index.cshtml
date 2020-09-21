@@ -4,34 +4,32 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section class="create-header">
+    <div>
+        <h1>Index</h1>
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="Create">Add New Dog</a>
+    </div> 
+</section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Breed)
+                Image
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OwnerId)
+                @Html.DisplayNameFor(model => model.Breed)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Owner.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                Owner
             </th>
             <th></th>
         </tr>
@@ -43,22 +41,17 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Breed)
+                <img style="width:50px; height:auto; border-radius:50%;"
+                     src="@Html.DisplayFor(modelItem =>item.ImageUrl)" alt="@Html.DisplayFor(modelItem =>item.Name)" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OwnerId)
+                @Html.DisplayFor(modelItem => item.Breed)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Owner.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

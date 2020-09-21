@@ -51,5 +51,42 @@ namespace DogGo.Repositories
                 }
             }
         }
+        public Neighborhood GetNeighborhoodByWalkerId(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT n.Id AS NeighborhoodId, n.[Name] AS NeighborhoodName
+                        FROM Neighborhood n
+                        LEFT JOIN Walker w ON n.Id = w.NeighborhoodId
+                        WHERE w.Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Neighborhood neighborhood = new Neighborhood()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
+                            Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
+                        };
+
+                        reader.Close();
+                        return neighborhood;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                    }
+                }
+            }
+        }
     }
 }

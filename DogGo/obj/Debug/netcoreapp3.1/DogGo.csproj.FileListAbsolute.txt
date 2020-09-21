@@ -130,7 +130,6 @@ C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Do
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\DogGo.pdb
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\DogGo.genruntimeconfig.cache
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Walkers\Index.cshtml.g.cs
-C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Walkers\Details.cshtml.g.cs
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Owners\Index.cshtml.g.cs
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Owners\Details.cshtml.g.cs
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\bin\Debug\netcoreapp3.1\refs\Microsoft.AspNetCore.Antiforgery.dll
@@ -429,3 +428,5 @@ C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Ra
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Dogs\Edit.cshtml.g.cs
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Dogs\Delete.cshtml.g.cs
 C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Dogs\Details.cshtml.g.cs
+C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Walkers\Details.cshtml.g.cs
+C:\Users\odais\workspace\csharp\exercises\DogGo\DogGo\obj\Debug\netcoreapp3.1\Razor\Views\Owners\Login.cshtml.g.cs

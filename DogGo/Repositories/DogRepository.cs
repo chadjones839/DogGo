@@ -65,7 +65,7 @@ namespace DogGo.Repositories
                 }
             }
         }
-        public List<Dog> GetDogsByOwnerId(int ownerId)
+        /*public List<Dog> GetDogsByOwnerId(int ownerId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -74,10 +74,10 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                SELECT Id, Name, Breed, Notes, ImageUrl, OwnerId 
-                FROM Dog
-                WHERE OwnerId = @ownerId
-            ";
+                        SELECT Id, Name, Breed, Notes, ImageUrl, OwnerId 
+                        FROM Dog
+                        WHERE OwnerId = @ownerId
+                    ";
 
                     cmd.Parameters.AddWithValue("@ownerId", ownerId);
 
@@ -111,7 +111,7 @@ namespace DogGo.Repositories
                     return dogs;
                 }
             }
-        }
+        }*/
 
         public Dog GetDogById(int id)
         {
@@ -210,12 +210,12 @@ namespace DogGo.Repositories
                     OUTPUT INSERTED.ID
                     VALUES (@name, @breed, @ownerId, @notes, @imageUrl);
                 ";
-
+                    string defaultImage = "https://cdn.pixabay.com/photo/2018/08/15/13/12/dog-3608037_960_720.jpg";
                     cmd.Parameters.AddWithValue("@name", dog.Name);
                     cmd.Parameters.AddWithValue("@breed", dog.Breed);
                     cmd.Parameters.AddWithValue("@ownerId", dog.OwnerId);
-                    cmd.Parameters.AddWithValue("@notes", dog.Notes);
-                    cmd.Parameters.AddWithValue("@imageUrl", dog.ImageUrl);
+                    cmd.Parameters.AddWithValue("@notes", dog.Notes ?? "");
+                    cmd.Parameters.AddWithValue("@imageUrl", dog.ImageUrl ?? defaultImage);
 
                     int id = (int)cmd.ExecuteScalar();
 
@@ -242,11 +242,12 @@ namespace DogGo.Repositories
                                 ImageUrl = @imageUrl
                             WHERE Id = @id";
 
+                    string defaultImage = "https://cdn.pixabay.com/photo/2018/08/15/13/12/dog-3608037_960_720.jpg";
                     cmd.Parameters.AddWithValue("@name", dog.Name);
                     cmd.Parameters.AddWithValue("@breed", dog.Breed);
                     cmd.Parameters.AddWithValue("@ownerId", dog.OwnerId);
-                    cmd.Parameters.AddWithValue("@notes", dog.Notes);
-                    cmd.Parameters.AddWithValue("@ImageUrl", dog.ImageUrl);
+                    cmd.Parameters.AddWithValue("@notes", dog.Notes ?? "");
+                    cmd.Parameters.AddWithValue("@imageUrl", dog.ImageUrl ?? defaultImage);
                     cmd.Parameters.AddWithValue("@id", dog.Id);
 
                     cmd.ExecuteNonQuery();
@@ -270,6 +271,59 @@ namespace DogGo.Repositories
                     cmd.Parameters.AddWithValue("@id", dogId);
 
                     cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public List<Dog> GetDogsByOwnerId(int ownerId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT d.Id AS DogId, d.[Name] AS DogName, OwnerId, Notes, ImageUrl, Breed, o.id AS OwnerId, o.[Name] AS OwnerName
+                        FROM Dog d
+                        LEFT JOIN Owner o ON d.OwnerId = o.Id
+                        WHERE o.Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", ownerId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Dog> dogs = new List<Dog>();
+
+                    while (reader.Read())
+                    {
+                        Dog dog = new Dog()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("DogId")),
+                            Name = reader.GetString(reader.GetOrdinal("DogName")),
+                            Breed = reader.GetString(reader.GetOrdinal("Breed")),
+                            OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                            Owner = new Owner()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                                Name = reader.GetString(reader.GetOrdinal("OwnerName"))
+                            }
+                        };
+
+                        // Check if optional columns are null
+                        if (reader.IsDBNull(reader.GetOrdinal("Notes")) == false)
+                        {
+                            dog.Notes = reader.GetString(reader.GetOrdinal("Notes"));
+                        }
+                        if (reader.IsDBNull(reader.GetOrdinal("ImageUrl")) == false)
+                        {
+                            dog.ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
+                        }
+
+                        dogs.Add(dog);
+                    }
+                    reader.Close();
+                    return dogs;
                 }
             }
         }

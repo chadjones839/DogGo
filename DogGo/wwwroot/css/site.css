@@ -53,6 +53,13 @@ navbar-links-container{
     padding: 0;
 }
 
+.create-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
 .nav-link {
     height: 100%;
     padding: 0 16px;
