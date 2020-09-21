@@ -66,6 +66,7 @@ namespace DogGo.Controllers
             return RedirectToAction("Index", "Dogs");
         }
         // GET: Owners
+        
         public ActionResult Index()
         {
             

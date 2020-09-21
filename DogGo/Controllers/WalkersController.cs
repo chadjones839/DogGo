@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DogGo.Models;
 using DogGo.Models.ViewModels;
@@ -16,25 +17,38 @@ namespace DogGo.Controllers
         private readonly INeighborhoodRepository _neighborhoodRepo;
         private readonly IDogRepository _dogRepo;
         private readonly IWalkRepository _walkRepo;
+        private readonly IOwnerRepository _ownerRepo;
 
         // ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
         public WalkersController(
             IWalkerRepository walkerRepository,
             INeighborhoodRepository neighborhoodRepository,
             IDogRepository dogRepository,
-            IWalkRepository walkRepository)
+            IWalkRepository walkRepository,
+            IOwnerRepository ownerRepository)
         {
             _walkerRepo = walkerRepository;
             _neighborhoodRepo = neighborhoodRepository;
             _dogRepo = dogRepository;
             _walkRepo = walkRepository;
+            _ownerRepo = ownerRepository;
         }
         // GET: Walkers
         public ActionResult Index()
         {
-            List<Walker> walkers = _walkerRepo.GetAllWalkers();
+            int ownerId = GetCurrentUserId();
+            Owner owner = _ownerRepo.GetOwnerById(ownerId);
+            List<Walker> allWalkers = _walkerRepo.GetAllWalkers();
 
-            return View(walkers);
+            if (ownerId == 0)
+            {
+                return View(allWalkers);
+            }
+            else
+            {
+                List<Walker> walkers = _walkerRepo.GetWalkersInNeighborhood(owner.NeighborhoodId);
+                return View(walkers);
+            }
         }
 
         // GET: Walkers/Details/5
@@ -117,6 +131,18 @@ namespace DogGo.Controllers
             catch
             {
                 return View();
+            }
+        }
+        private int GetCurrentUserId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id != null)
+            {
+                return int.Parse(id);
+            }
+            else
+            {
+                return 0;
             }
         }
     }
